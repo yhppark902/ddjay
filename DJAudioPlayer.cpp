@@ -35,7 +35,6 @@ void DJAudioPlayer::releaseResources()
 {
     transportSource.releaseResources();
     resampleSource.releaseResources();
-    formatManager.end();
 }
 
 void DJAudioPlayer::loadURL(juce::URL audioURL)
