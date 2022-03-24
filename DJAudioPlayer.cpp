@@ -21,6 +21,12 @@ void DJAudioPlayer::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 {
     transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     resampleSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    reverbSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    auto reverbParams = reverbSource.getParameters();
+    reverbParams.roomSize = 1.0f;
+    reverbSource.setParameters(reverbParams);
+    filteredSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(sampleRate, 1000.0f, 1.0f));
 }
 void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
@@ -29,12 +35,14 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         bufferToFill.clearActiveBufferRegion();
         return;
     }
-    resampleSource.getNextAudioBlock(bufferToFill);
+    filteredSource.getNextAudioBlock(bufferToFill);
 }
 void DJAudioPlayer::releaseResources()
 {
     transportSource.releaseResources();
     resampleSource.releaseResources();
+    reverbSource.releaseResources();
+    filteredSource.releaseResources();
 }
 
 void DJAudioPlayer::loadURL(juce::URL audioURL)
@@ -45,6 +53,7 @@ void DJAudioPlayer::loadURL(juce::URL audioURL)
         std::unique_ptr<juce::AudioFormatReaderSource> newSource (new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(newSource.get(), 0, nullptr,reader->sampleRate);
         readerSource.reset(newSource.release()->getAudioFormatReader());
+
     }
 }
 void DJAudioPlayer::setGain(double gain)
@@ -94,4 +103,12 @@ void DJAudioPlayer::stop()
 double DJAudioPlayer::getPositionRelative()
 {
     return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
+}
+void DJAudioPlayer::setFilter()
+{
+    
+}
+void DJAudioPlayer::setReverb()
+{
+    
 }

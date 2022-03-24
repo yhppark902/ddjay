@@ -31,9 +31,14 @@ public:
     
     /** get the relative position of the playhead*/
     double getPositionRelative();
+    
+    void setFilter();
+    void setReverb();
 private:
     juce::AudioFormatManager& formatManager;
     std::unique_ptr<juce::AudioFormatReader> readerSource;
     juce::AudioTransportSource transportSource;
     juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};
+    juce::ReverbAudioSource reverbSource{&resampleSource,false};
+    juce::IIRFilterAudioSource filteredSource{&reverbSource, false};
 };
