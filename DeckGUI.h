@@ -47,8 +47,19 @@ private:
     juce::TextButton stopButton{"STOP"};
     juce::TextButton loadButton{"LOAD"};
     juce::Slider volSlider;
+    juce::Label  volLabel;
     juce::Slider speedSlider;
+    juce::Label speedLabel;
     juce::Slider posSlider;
+    juce::Label posLabel;
+    juce::ToggleButton reverbButton{"Echo"};
+    juce::ToggleButton filterButton{"Band"};
+    juce::Slider roomSlider;
+    juce::Label roomLabel;
+    juce::Slider freqSlider;
+    juce::Label freqLabel;
+    juce::Slider qSlider;
+    juce::Label qLabel;
     
     DJAudioPlayer* player;
 
