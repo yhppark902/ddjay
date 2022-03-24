@@ -131,10 +131,10 @@ void DeckGUI::resized()
     speedSlider.setBounds(sideSpeedBarArea.removeFromTop(getHeight()-rowH).reduced(1));
     
     auto topbarArea = area.removeFromTop(4*rowH);
-    playButton.setBounds(topbarArea.removeFromTop(rowH).reduced(1));
-    stopButton.setBounds(topbarArea.removeFromTop(rowH).reduced(1));
+    playButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
+    stopButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
     waveformDisplay.setBounds(topbarArea.removeFromTop(2*rowH).reduced(1));
-    loadButton.setBounds(topbarArea.removeFromTop(rowH).reduced(1));
+    loadButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
     
     auto posArea = area.removeFromLeft(2*sidebarwidth);
     posLabel.setBounds(posArea.removeFromTop(0.5*rowH));
