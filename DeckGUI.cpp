@@ -48,9 +48,15 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     loopButton.addListener(this);
     loopButton.setClickingTogglesState(true);
     loadButton.addListener(this);
+    reverbButton.addListener(this);
+    reverbButton.setToggleState(true, juce::dontSendNotification);
+    filterButton.addListener(this);
+    filterButton.setToggleState(true, juce::dontSendNotification);
+    
     volSlider.addListener(this);
     posSlider.addListener(this);
     speedSlider.addListener(this);
+    roomSlider.addListener(this);
                         
     
     volSlider.setRange(0.0, 1.0);
@@ -79,6 +85,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     posLabel.setText("Pos", juce::dontSendNotification);
     posLabel.setJustificationType(juce::Justification::centred);
     
+    roomSlider.setRange(0,1.0);
+    roomSlider.setValue(1.0);
     roomSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     roomSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     roomSlider.setNumDecimalPlacesToDisplay(1);
@@ -86,7 +94,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     roomLabel.setText("Room", juce::dontSendNotification);
     roomLabel.setJustificationType(juce::Justification::centred);
 
-                        
+    freqSlider.setRange(10, 20000);
+    freqSlider.setValue(1000);
     freqSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     freqSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     freqSlider.setNumDecimalPlacesToDisplay(1);
@@ -94,7 +103,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     freqLabel.setText("Freq", juce::dontSendNotification);
     freqLabel.setJustificationType(juce::Justification::centred);
 
-                        
+    qSlider.setRange(0, 1);
+    qSlider.setValue(1.0);
     qSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     qSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     qSlider.setNumDecimalPlacesToDisplay(1);
@@ -108,6 +118,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
 DeckGUI::~DeckGUI()
 {
+    setLookAndFeel (nullptr);
     stopTimer();
 }
 
@@ -197,6 +208,14 @@ void DeckGUI::buttonClicked(juce::Button* button)
     {
         updateToggleState(&loopButton, "LOOP");
     }
+    if (button==&reverbButton)
+    {
+        updateToggleState(&reverbButton, "Echo");
+    }
+    if (button==&filterButton)
+    {
+        updateToggleState(&filterButton, "Band");
+    }
 }
 void DeckGUI::sliderValueChanged(juce::Slider* slider)
 {
@@ -214,13 +233,36 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
     {
         player->setPositionRelative(slider->getValue());
     }
+    if(slider == &roomSlider)
+    {
+        player->setReverb(slider->getValue());
+    }
+    if(slider == &freqSlider)
+    {
+        player->setFilterFreq(slider->getValue());
+    }
+    if(slider == &qSlider)
+    {
+        player->setFilterQ(slider->getValue());
+    }
 }
 void DeckGUI::updateToggleState(juce::Button* button, juce::String name)
 {
-    auto state = button->getToggleState();
-    juce::String stateString = state ? "ON" : "OFF";
-    button->setButtonText(name+" "+stateString);
-    player->setToggleLooping();
+    if(button == &loopButton)
+    {
+        auto state = button->getToggleState();
+        juce::String stateString = state ? "ON" : "OFF";
+        button->setButtonText(name+" "+stateString);
+        player->setToggleLooping();
+    }
+    if(button == &reverbButton)
+    {
+        player->setToggleReverb();
+    }
+    if(button == &filterButton)
+    {
+        player->setToggleFilter();
+    }
 }
 
 bool DeckGUI::isInterestedInFileDrag(const juce::StringArray &files)

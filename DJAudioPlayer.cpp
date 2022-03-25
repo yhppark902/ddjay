@@ -26,7 +26,7 @@ void DJAudioPlayer::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     reverbParams.roomSize = 1.0f;
     reverbSource.setParameters(reverbParams);
     filteredSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(sampleRate, 1000.0f, 1.0f));
+    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(sampleRate, freq, q));
 }
 void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
@@ -35,7 +35,7 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         bufferToFill.clearActiveBufferRegion();
         return;
     }
-    std::cout<<transportSource.getCurrentPosition()<<","<<transportSource.getLengthInSeconds()<<std::endl;
+//    std::cout<<transportSource.getCurrentPosition()<<","<<transportSource.getLengthInSeconds()<<std::endl;
     if(
        (transportSource.getLengthInSeconds() <= transportSource.getCurrentPosition()) &&
        loopingState)
@@ -111,16 +111,47 @@ double DJAudioPlayer::getPositionRelative()
 {
     return transportSource.getCurrentPosition() / transportSource.getLengthInSeconds();
 }
-void DJAudioPlayer::setFilter()
-{
-    
-}
-void DJAudioPlayer::setReverb()
-{
-    
-}
 bool DJAudioPlayer::setToggleLooping()
 {
     loopingState = !loopingState;
     return loopingState;
+}
+bool DJAudioPlayer::setToggleReverb()
+{
+    reverbState = !reverbState;
+    reverbSource.setBypassed(!reverbState);
+    return reverbState;
+}
+
+bool DJAudioPlayer::setToggleFilter()
+{
+    filterState = !filterState;
+    if(!filterState)
+    {
+    filteredSource.makeInactive();
+    }
+    else
+    {
+    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(readerSource->sampleRate, freq, q));
+    }
+    return filterState;
+}
+
+void DJAudioPlayer::setReverb(double ratio)
+{
+    auto reverbParams = reverbSource.getParameters();
+    reverbParams.roomSize = ratio;
+    reverbSource.setParameters(reverbParams);
+}
+
+void DJAudioPlayer::setFilterFreq(double _freq)
+{
+    freq = _freq;
+    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(readerSource->sampleRate, freq, q));
+}
+
+void DJAudioPlayer::setFilterQ(double _q)
+{
+    q = _q;
+    filteredSource.setCoefficients(juce::IIRCoefficients::makeBandPass(readerSource->sampleRate, freq, q));
 }

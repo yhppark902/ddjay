@@ -32,9 +32,12 @@ public:
     /** get the relative position of the playhead*/
     double getPositionRelative();
     
-    void setFilter();
-    void setReverb();
     bool setToggleLooping();
+    bool setToggleReverb();
+    bool setToggleFilter();
+    void setReverb(double ratio);
+    void setFilterFreq(double _freq);
+    void setFilterQ(double _q);
 private:
     juce::AudioFormatManager& formatManager;
     std::unique_ptr<juce::AudioFormatReader> readerSource;
@@ -43,4 +46,8 @@ private:
     juce::ReverbAudioSource reverbSource{&resampleSource,false};
     juce::IIRFilterAudioSource filteredSource{&reverbSource, false};
     bool loopingState{false};
+    bool reverbState{true};
+    bool filterState{true};
+    double freq{1000.0};
+    double q{1.0};
 };
