@@ -20,8 +20,9 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 {
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
+    addAndMakeVisible(loopButton);
     addAndMakeVisible(loadButton);
-    
+
     addAndMakeVisible(volSlider);
     addAndMakeVisible(volLabel);
     addAndMakeVisible(speedSlider);
@@ -57,7 +58,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     volLabel.setText ("Volume", juce::dontSendNotification);
     volLabel.setJustificationType(juce::Justification::centred);
  
-    speedSlider.setRange(0.0,10.0);
+    speedSlider.setRange(0,10.0);
     speedSlider.setValue(1.0);
     speedSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBarVertical);
     speedSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, volSlider.getTextBoxWidth(), 5);
@@ -131,10 +132,11 @@ void DeckGUI::resized()
     speedSlider.setBounds(sideSpeedBarArea.removeFromTop(getHeight()-rowH).reduced(1));
     
     auto topbarArea = area.removeFromTop(4*rowH);
-    playButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
-    stopButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
-    waveformDisplay.setBounds(topbarArea.removeFromTop(2*rowH).reduced(1));
-    loadButton.setBounds(topbarArea.removeFromTop(2*rowH/3).reduced(1));
+    playButton.setBounds(topbarArea.removeFromTop(7*rowH/12).reduced(1));
+    stopButton.setBounds(topbarArea.removeFromTop(7*rowH/12).reduced(1));
+    loopButton.setBounds(topbarArea.removeFromTop(7*rowH/12).reduced(1));
+    waveformDisplay.setBounds(topbarArea.removeFromTop(5*rowH/3).reduced(1));
+    loadButton.setBounds(topbarArea.removeFromTop(7*rowH/12).reduced(1));
     
     auto posArea = area.removeFromLeft(2*sidebarwidth);
     posLabel.setBounds(posArea.removeFromTop(0.5*rowH));
@@ -156,13 +158,6 @@ void DeckGUI::resized()
     qLabel.setBounds(ctrlArea3.removeFromTop(1*rowH));
     qSlider.setBounds(ctrlArea3.removeFromTop(2*rowH));
     
-//    roomSlider.setBounds(ctrlArea.removeFromLeft(sidebarwidth));
-//    freqSlider.setBounds(ctrlArea.removeFromLeft(sidebarwidth));
-//    qSlider.setBounds(ctrlArea.removeFromLeft(sidebarwidth));
-//    speedSlider.setBounds(0, 3*rowH, getWidth(), rowH);
-//    posSlider.setBounds(0, 4*rowH, getWidth(), rowH);
-//    waveformDisplay.setBounds(0, 5*rowH, getWidth(), 2*rowH);
-//    loadButton.setBounds(0, 7*rowH, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(juce::Button* button)
@@ -185,6 +180,9 @@ void DeckGUI::buttonClicked(juce::Button* button)
             waveformDisplay.loadURL(juce::URL{chooser.getResult()});
 
         }
+    }
+    if (button==&loopButton)
+    {
     }
 }
 void DeckGUI::sliderValueChanged(juce::Slider* slider)

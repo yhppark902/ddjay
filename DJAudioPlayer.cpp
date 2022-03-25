@@ -35,6 +35,12 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         bufferToFill.clearActiveBufferRegion();
         return;
     }
+    std::cout<<transportSource.getCurrentPosition()<<","<<transportSource.getLengthInSeconds()<<std::endl;
+    if(transportSource.getLengthInSeconds()<=transportSource.getCurrentPosition())
+    {
+        transportSource.setPosition(0);
+        transportSource.start();
+    }
     filteredSource.getNextAudioBlock(bufferToFill);
 }
 void DJAudioPlayer::releaseResources()
@@ -53,7 +59,6 @@ void DJAudioPlayer::loadURL(juce::URL audioURL)
         std::unique_ptr<juce::AudioFormatReaderSource> newSource (new juce::AudioFormatReaderSource(reader, true));
         transportSource.setSource(newSource.get(), 0, nullptr,reader->sampleRate);
         readerSource.reset(newSource.release()->getAudioFormatReader());
-
     }
 }
 void DJAudioPlayer::setGain(double gain)
