@@ -37,6 +37,7 @@ public:
     void buttonClicked(juce::Button*) override;
     /** implement juce::Slider::Listener*/
     void sliderValueChanged(juce::Slider*) override;
+    void updateToggleState(juce::Button* button, juce::String name);
     bool isInterestedInFileDrag(const juce::StringArray &files) override;
     void filesDropped(const juce::StringArray &files, int x, int y)override;
     
@@ -46,7 +47,7 @@ private:
     juce::TextButton playButton{"PLAY"};
     juce::TextButton stopButton{"STOP"};
     juce::TextButton loadButton{"LOAD"};
-    juce::TextButton loopButton{"LOOP"};
+    juce::TextButton loopButton{"LOOP OFF"};
     juce::Slider volSlider;
     juce::Label  volLabel;
     juce::Slider speedSlider;

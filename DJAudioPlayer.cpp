@@ -36,7 +36,9 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         return;
     }
     std::cout<<transportSource.getCurrentPosition()<<","<<transportSource.getLengthInSeconds()<<std::endl;
-    if(transportSource.getLengthInSeconds()<=transportSource.getCurrentPosition())
+    if(
+       (transportSource.getLengthInSeconds() <= transportSource.getCurrentPosition()) &&
+       loopingState)
     {
         transportSource.setPosition(0);
         transportSource.start();
@@ -116,4 +118,9 @@ void DJAudioPlayer::setFilter()
 void DJAudioPlayer::setReverb()
 {
     
+}
+bool DJAudioPlayer::setToggleLooping()
+{
+    loopingState = !loopingState;
+    return loopingState;
 }

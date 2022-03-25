@@ -34,6 +34,7 @@ public:
     
     void setFilter();
     void setReverb();
+    bool setToggleLooping();
 private:
     juce::AudioFormatManager& formatManager;
     std::unique_ptr<juce::AudioFormatReader> readerSource;
@@ -41,4 +42,5 @@ private:
     juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};
     juce::ReverbAudioSource reverbSource{&resampleSource,false};
     juce::IIRFilterAudioSource filteredSource{&reverbSource, false};
+    bool loopingState{false};
 };

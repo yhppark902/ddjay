@@ -43,6 +43,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     playButton.addListener(this);
     stopButton.addListener(this);
+    loopButton.addListener(this);
+    loopButton.setClickingTogglesState(true);
     loadButton.addListener(this);
     volSlider.addListener(this);
     posSlider.addListener(this);
@@ -178,11 +180,11 @@ void DeckGUI::buttonClicked(juce::Button* button)
         {
             player->loadURL(juce::URL{chooser.getResult()});
             waveformDisplay.loadURL(juce::URL{chooser.getResult()});
-
         }
     }
     if (button==&loopButton)
     {
+        updateToggleState(&loopButton, "LOOP");
     }
 }
 void DeckGUI::sliderValueChanged(juce::Slider* slider)
@@ -201,6 +203,13 @@ void DeckGUI::sliderValueChanged(juce::Slider* slider)
     {
         player->setPositionRelative(slider->getValue());
     }
+}
+void DeckGUI::updateToggleState(juce::Button* button, juce::String name)
+{
+    auto state = button->getToggleState();
+    juce::String stateString = state ? "ON" : "OFF";
+    button->setButtonText(name+" "+stateString);
+    player->setToggleLooping();
 }
 
 bool DeckGUI::isInterestedInFileDrag(const juce::StringArray &files)
