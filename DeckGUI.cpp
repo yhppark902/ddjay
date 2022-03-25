@@ -73,6 +73,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     posSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     posSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     posSlider.setNumDecimalPlacesToDisplay(1);
+    posSlider.setLookAndFeel(&myLookAndFeel);
                         
     posLabel.setText("Pos", juce::dontSendNotification);
     posLabel.setJustificationType(juce::Justification::centred);
@@ -90,12 +91,16 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     freqSlider.setNumDecimalPlacesToDisplay(1);
 
     freqLabel.setText("Freq", juce::dontSendNotification);
+    freqLabel.setJustificationType(juce::Justification::centred);
+
                         
     qSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     qSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     qSlider.setNumDecimalPlacesToDisplay(1);
 
     qLabel.setText("QFact", juce::dontSendNotification);
+    qLabel.setJustificationType(juce::Justification::centred);
+
                         
     startTimer(500);
 }
@@ -118,6 +123,11 @@ void DeckGUI::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
+    
+    g.setColour (juce::Colours::black);
+    g.drawLine (2*getWidth()/7, getHeight()/2-1, getWidth()-1, getHeight()/2-1, 3);
+    g.drawLine (4*getWidth()/7-7, getHeight()/2-1, 4*getWidth()/7-7, getHeight()-1, 3);
+
 }
 
 void DeckGUI::resized()
