@@ -18,6 +18,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
                  ): player{_player},
                     waveformDisplay(formatManagerToUse, cacheToUse)
 {
+    setLookAndFeel(&myLookAndFeel);
+
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loopButton);
@@ -73,7 +75,6 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     posSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     posSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     posSlider.setNumDecimalPlacesToDisplay(1);
-    posSlider.setLookAndFeel(&myLookAndFeel);
                         
     posLabel.setText("Pos", juce::dontSendNotification);
     posLabel.setJustificationType(juce::Justification::centred);
@@ -81,7 +82,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     roomSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     roomSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 60, 20);
     roomSlider.setNumDecimalPlacesToDisplay(1);
-    
+                        
     roomLabel.setText("Room", juce::dontSendNotification);
     roomLabel.setJustificationType(juce::Justification::centred);
 

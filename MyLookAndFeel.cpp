@@ -12,8 +12,6 @@
 
 MyLookAndFeel::MyLookAndFeel()
 {
-//    juce::File knobImageFile = juce::File(juce::File("../Source").getChildFile("knob.png"));
-//    knobImg = juce::ImageCache::getFromFile(knobImageFile);
     knobImg = juce::ImageFileFormat::loadFrom(BinaryData::knob_png, BinaryData::knob_pngSize);
 }
 
