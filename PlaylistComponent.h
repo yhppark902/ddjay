@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include "Playlist.h"
 //==============================================================================
 /*
 */

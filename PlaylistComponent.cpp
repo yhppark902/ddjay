@@ -16,7 +16,7 @@ PlaylistComponent::PlaylistComponent()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-    
+    Playlist playlist{"text"};
     trackTitles.push_back("Track1");
     trackTitles.push_back("Track2");
     trackTitles.push_back("Track3");
@@ -24,8 +24,11 @@ PlaylistComponent::PlaylistComponent()
     trackTitles.push_back("Track5");
     trackTitles.push_back("Track6");
     
-    tableComponent.getHeader().addColumn("Track title", 1, 400);
-    tableComponent.getHeader().addColumn("", 2, 200);
+    tableComponent.getHeader().addColumn("Track title", 1, 200);
+    tableComponent.getHeader().addColumn("Length", 2, 200);
+    tableComponent.getHeader().addColumn("Directory",3,200);
+    tableComponent.getHeader().addColumn("", 4, 200);
+    
 
     tableComponent.setModel(this);
 
@@ -50,10 +53,6 @@ void PlaylistComponent::paint (juce::Graphics& g)
     g.setColour (juce::Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("PlaylistComponent", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void PlaylistComponent::resized()
@@ -100,11 +99,11 @@ juce::Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
                                    bool isRowSelected,
                                    Component* existingComponentToUpdate)
 {
-    if(columnId == 2)
+    if(columnId == 4)
     {
         if(existingComponentToUpdate == nullptr)
         {
-            juce::TextButton* btn = new juce::TextButton{"Play"};
+            juce::TextButton* btn = new juce::TextButton{"PLAY"};
             juce::String id{std::to_string(rowNumber)};
             btn->setComponentID(id);
             btn->addListener(this);
