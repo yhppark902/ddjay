@@ -277,11 +277,16 @@ void DeckGUI::filesDropped(const juce::StringArray &files, int x, int y)
     {
         player->loadURL(juce::URL{juce::File{files[0]}});
     }
-
 }
 
 void DeckGUI::timerCallback()
 {
     std::cout << "DeckGUI::timerCallback" << std::endl;
     waveformDisplay.setPositionRelative(player->getPositionRelative());
+}
+
+void DeckGUI::loadFile(juce::URL audioFile)
+{
+    player->loadURL(audioFile);
+    waveformDisplay.loadURL(audioFile);
 }

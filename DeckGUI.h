@@ -41,7 +41,8 @@ public:
     void updateToggleState(juce::Button* button, juce::String name);
     bool isInterestedInFileDrag(const juce::StringArray &files) override;
     void filesDropped(const juce::StringArray &files, int x, int y)override;
-    
+    void loadFile(juce::URL audioFile);
+
     void timerCallback() override;
     
 private:
@@ -68,5 +69,6 @@ private:
     WaveformDisplay waveformDisplay;
     
     MyLookAndFeel myLookAndFeel;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

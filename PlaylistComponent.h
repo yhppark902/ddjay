@@ -13,16 +13,22 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
-#include "Playlist.h"
+#include <sstream>
+#include <fstream>
+#include "DJAudioPlayer.h"
+#include "DeckGUI.h"
+#include "TrackEntry.h"
+
 //==============================================================================
 /*
 */
 class PlaylistComponent  : public juce::Component,
                            public juce::TableListBoxModel,
-                           public juce::Button::Listener
+                           public juce::Button::Listener,
+                           public juce::TextEditor::Listener
 {
 public:
-    PlaylistComponent();
+    PlaylistComponent(DeckGUI* _deckGUI1, DeckGUI* _deckGUI2, juce::AudioFormatManager& _formatManager);
     ~PlaylistComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -45,9 +51,28 @@ public:
                                        bool isRowSelected,
                                        Component* existingComponentToUpdate) override;
     void buttonClicked(juce::Button* button) override;
+    void textEditorReturnKeyPressed (juce::TextEditor &textEditor) override;
     
 private:
+    std::vector<TrackEntry> track;
+    
+    juce::TextButton import{"import"};
+    juce::TextEditor searchfield;
     juce::TableListBox tableComponent;
-    std::vector<std::string> trackTitles;
+    juce::TextButton load1{"load to deck1"};
+    juce::TextButton load2{"load to deck2"};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
+    
+    DeckGUI* deckGUI1;
+    DeckGUI* deckGUI2;
+    juce::AudioFormatManager& formatManager;
+    
+    void loadLibrary();
+    void saveLibrary();
+    void addTrack();
+    void deleteTrack(int id);
+    void loadDeck(DeckGUI* deckGUI);
+    double getLength(juce::File audioFile);
+    void searchTrack(juce::String keyword);
+
 };

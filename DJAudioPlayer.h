@@ -31,7 +31,7 @@ public:
     
     /** get the relative position of the playhead*/
     double getPositionRelative();
-    
+
     bool setToggleLooping();
     bool setToggleReverb();
     bool setToggleFilter();
