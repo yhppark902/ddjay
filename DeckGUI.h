@@ -38,11 +38,15 @@ public:
     void buttonClicked(juce::Button*) override;
     /** implement juce::Slider::Listener*/
     void sliderValueChanged(juce::Slider*) override;
+    /** implement change change toggle button*/
     void updateToggleState(juce::Button* button, juce::String name);
+    /** callback to check whether this target is interested in the set of files being offered*/
     bool isInterestedInFileDrag(const juce::StringArray &files) override;
+    /** callback to indicate that the user has dropped the files onto this component*/
     void filesDropped(const juce::StringArray &files, int x, int y)override;
+    /** callback to import from playlist selected*/
     void loadFile(juce::URL audioFile);
-
+    /** timer to the waveform*/
     void timerCallback() override;
     
 private:

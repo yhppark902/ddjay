@@ -30,10 +30,10 @@ class PlaylistComponent  : public juce::Component,
 public:
     PlaylistComponent(DeckGUI* _deckGUI1, DeckGUI* _deckGUI2, juce::AudioFormatManager& _formatManager);
     ~PlaylistComponent() override;
-
+    //Component virtual override
     void paint (juce::Graphics&) override;
     void resized() override;
-    
+    //TablListBoxModel virtual override
     int getNumRows () override;
     void paintRowBackground(juce::Graphics &,
                             int rowNumber,

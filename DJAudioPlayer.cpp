@@ -35,7 +35,6 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
         bufferToFill.clearActiveBufferRegion();
         return;
     }
-//    std::cout<<transportSource.getCurrentPosition()<<","<<transportSource.getLengthInSeconds()<<std::endl;
     if(
        (transportSource.getLengthInSeconds() <= transportSource.getCurrentPosition()) &&
        loopingState)

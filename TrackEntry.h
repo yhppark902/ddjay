@@ -19,5 +19,6 @@ public:
     juce::URL URL;
     juce::String title;
     juce::String length;
+    // operator for compare in algorithm
     bool operator==(const juce::String& compare) const;
 };

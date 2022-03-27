@@ -17,18 +17,16 @@ public:
     MainComponent();
     ~MainComponent() override;
 
-    //==============================================================================
+    //AudioSource virtual override
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
     void releaseResources() override;
-    //==============================================================================
+    //Component virtual override
     void paint (juce::Graphics& g) override;
     void resized() override;
     
 
 private:
-    //==============================================================================
-    // Your private member variables go here...
     juce::AudioFormatManager formatManager;
     juce::AudioThumbnailCache thumCache{100};
     

@@ -9,7 +9,6 @@
 */
 
 #pragma once
-
 #include <JuceHeader.h>
 
 //==============================================================================
@@ -25,11 +24,9 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
-    
     void changeListenerCallback(juce::ChangeBroadcaster *source) override;
-    
+    /** load file using URL*/
     void loadURL(juce::URL audioURL);
-    
     /** set the relative position of the playhead*/
     void setPositionRelative(double pos);
 private:
